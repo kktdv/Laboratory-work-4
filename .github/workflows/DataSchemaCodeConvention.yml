@@ -1,0 +1,24 @@
+name: Data Schema Code Convention
+
+on:
+  push:
+    branches:
+      - main  # Вказати гілку, для якої буде виконуватись перевірка
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run schema validation
+      run: |
+        # Команди для перевірки норм кодування
+        # Наприклад, запуск лінтера для перевірки схем
+        echo "Перевірка норм кодування схеми даних..."
+        # Додайте тут ваші команди для валідації схеми даних
