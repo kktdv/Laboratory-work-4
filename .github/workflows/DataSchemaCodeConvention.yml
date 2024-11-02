@@ -1,17 +1,23 @@
-name: SQL Linter
+name: Data Schema Code Convention
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  SQLLinter:
+  lint:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code in Repository
-        uses: actions/checkout@v3
 
-      - name: Start SQL Linter
-        run: |
-          pip install sqlfluff
-          sqlfluff lint $GITHUB_WORKSPACE/DataSchema.sql --dialect oracle
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install SQLFluff
+      run: pip install sqlfluff
+
+    - name: Run SQLFluff on Data Schema
+      run: sqlfluff lint .github/DataSchema.sql 
