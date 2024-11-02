@@ -1,78 +1,38 @@
-CREATE TABLE Users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone CHAR(10) NOT NULL
+CREATE TABLE USERS (
+    ID SERIAL PRIMARY KEY,
+    NAME VARCHAR(50) NOT NULL,
+    EMAIL VARCHAR(100) NOT NULL,
+    PHONE CHAR(10) NOT NULL
 );
 
-CREATE TABLE Classes (
-    id SERIAL PRIMARY KEY,
-    type VARCHAR(50) NOT NULL,
-    schedule VARCHAR(200),
-    user_id INT REFERENCES Users(id)
+CREATE TABLE CLASSES (
+    ID SERIAL PRIMARY KEY,
+    TYPE VARCHAR(50) NOT NULL,
+    SCHEDULE VARCHAR(200),
+    USER_ID INT REFERENCES USERS(ID)
 );
 
-CREATE TABLE Filters (
-    id SERIAL PRIMARY KEY,
-    dance_type VARCHAR(50) NOT NULL,
-    time CHAR(5),
-    user_id INT REFERENCES Users(id)
+CREATE TABLE FILTERS (
+    ID SERIAL PRIMARY KEY,
+    DANCE_TYPE VARCHAR(50) NOT NULL,
+    TIME CHAR(5),
+    USER_ID INT REFERENCES USERS(ID)
 );
 
-CREATE TYPE application_status AS ENUM ('Подана', 'Розглядається', 'Затверджена', 'Відхилена');
+CREATE TYPE APPLICATION_STATUS AS ENUM ('Подана', 'Розглядається', 'Затверджена', 'Відхилена');
 
-CREATE TABLE ApplicationForms (
-    id SERIAL PRIMARY KEY,
-    status application_status NOT NULL,
-    submission_date DATE NOT NULL,
-    user_id INT REFERENCES Users(id),
-    personal_data_id INT
+CREATE TABLE APPLICATION_FORMS (
+    ID SERIAL PRIMARY KEY,
+    STATUS APPLICATION_STATUS NOT NULL,
+    SUBMISSION_DATE DATE NOT NULL,
+    USER_ID INT REFERENCES USERS(ID),
+    PERSONAL_DATA_ID INT
 );
 
-CREATE TABLE PersonalData (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    surname VARCHAR(50) NOT NULL,
-    contact_details VARCHAR(200) NOT NULL,
-    application_form_id INT REFERENCES ApplicationForms(id)
-);
-
-
-CREATE TABLE Users (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    phone CHAR(10) NOT NULL
-);
-
-CREATE TABLE Classes (
-    id SERIAL PRIMARY KEY,
-    type VARCHAR(50) NOT NULL,
-    schedule VARCHAR(200),
-    user_id INT REFERENCES Users(id)
-);
-
-CREATE TABLE Filters (
-    id SERIAL PRIMARY KEY,
-    dance_type VARCHAR(50) NOT NULL,
-    time CHAR(5),
-    user_id INT REFERENCES Users(id)
-);
-
-CREATE TYPE application_status AS ENUM ('Подана', 'Розглядається', 'Затверджена', 'Відхилена');
-
-CREATE TABLE ApplicationForms (
-    id SERIAL PRIMARY KEY,
-    status application_status NOT NULL,
-    submission_date DATE NOT NULL,
-    user_id INT REFERENCES Users(id),
-    personal_data_id INT
-);
-
-CREATE TABLE PersonalData (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    surname VARCHAR(50) NOT NULL,
-    contact_details VARCHAR(200) NOT NULL,
-    application_form_id INT REFERENCES ApplicationForms(id)
+CREATE TABLE PERSONAL_DATA (
+    ID SERIAL PRIMARY KEY,
+    NAME VARCHAR(50) NOT NULL,
+    SURNAME VARCHAR(50) NOT NULL,
+    CONTACT_DETAILS VARCHAR(200) NOT NULL,
+    APPLICATION_FORM_ID INT REFERENCES APPLICATION_FORMS(ID)
 );
