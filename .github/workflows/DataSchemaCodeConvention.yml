@@ -1,27 +1,17 @@
-name: Data Schema Code Convention
+name: SQL Linter
 
 on:
-  # Виконувати перевірку при подіях push і pull_request на гілці `main`
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  SQLSchemaLinter:
-    # Використання останньої версії Ubuntu як ОС
+  SQLLinter:
     runs-on: ubuntu-latest
-
     steps:
-      # Клонування коду з репозиторію
       - name: Checkout Code in Repository
         uses: actions/checkout@v3
 
-      # Встановлення SQLFluff та запуск лінтера для перевірки файлів
-      - name: Start SQL Schema Linter
+      - name: Start SQL Linter
         run: |
           pip install sqlfluff
-          # Лінтинг всіх SQL-файлів у репозиторії для діалекту PostgreSQL (або іншого потрібного діалекту)
-          sqlfluff lint "**/*.sql" --dialect postgres
+          sqlfluff lint $GITHUB_WORKSPACE/DataSchema.sql --dialect oracle
