@@ -1,86 +1,27 @@
-naming_conventions:
-  table_names: PascalCase  # Наприклад: User, Class
-  column_names: camelCase  # Наприклад: id, userId
-  constraints:
-    max_length: 50  # Максимальна довжина для імен таблиць та полів
+name: Data Schema Code Convention
 
-data_types:
-  id_field:
-    type: integer
-    primary_key: true
-    auto_increment: false  # ID не автоінкрементується у наданих прикладах
+on:
+  # Виконувати перевірку при подіях push і pull_request на гілці `main`
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
-  name_field:
-    type: varchar
-    length: 50
-    nullable: false
-    check: "^[A-Za-z]{1,50}$"
+jobs:
+  SQLSchemaLinter:
+    # Використання останньої версії Ubuntu як ОС
+    runs-on: ubuntu-latest
 
-  email_field:
-    type: varchar
-    length: 100
-    nullable: false
-    check: "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"
+    steps:
+      # Клонування коду з репозиторію
+      - name: Checkout Code in Repository
+        uses: actions/checkout@v3
 
-  phone_field:
-    type: char
-    length: 10
-    nullable: false
-    check: "^\\d{10}$"
-
-  type_field:
-    type: varchar
-    length: 50
-    nullable: false
-
-  schedule_field:
-    type: varchar
-    length: 200
-    nullable: true
-
-  status_enum:
-    type: enum
-    values: ['Подана', 'Розглядається', 'Затверджена', 'Відхилена']
-    nullable: false
-
-  time_field:
-    type: char
-    length: 5
-    nullable: true
-    check: "^(?:[01]\\d|2[0-3]):[0-5]\\d$"
-
-  submission_date_field:
-    type: date
-    nullable: false
-    check: "submissionDate <= CURRENT_DATE"
-
-constraints:
-  unique_fields:
-    - email
-  required_fields:
-    - id
-    - name
-    - email
-    - phone
-    - submissionDate
-
-relationships:
-  foreign_keys:
-    - table: Class
-      column: user_id
-      references: User.id
-
-    - table: Filter
-      column: user_id
-      references: User.id
-
-    - table: ApplicationForm
-      column: user_id
-      references: User.id
-    - table: ApplicationForm
-      column: personalData_id
-      references: PersonalData.id
-
-    - table: PersonalData
-      column: applicationForm_id
-      references: ApplicationForm.id
+      # Встановлення SQLFluff та запуск лінтера для перевірки файлів
+      - name: Start SQL Schema Linter
+        run: |
+          pip install sqlfluff
+          # Лінтинг всіх SQL-файлів у репозиторії для діалекту PostgreSQL (або іншого потрібного діалекту)
+          sqlfluff lint "**/*.sql" --dialect postgres
