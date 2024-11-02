@@ -20,4 +20,4 @@ jobs:
       run: pip install sqlfluff
 
     - name: Run SQLFluff on Data Schema
-      run: sqlfluff lint .github/DataSchema.sql --dialect postgres  
+      run: sqlfluff lint .github/DataSchemaModified.sql --dialect postgres
